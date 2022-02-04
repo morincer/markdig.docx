@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Markdig.Renderers.DocX", "Markdig.Renderers.DocX\Markdig.Renderers.DocX.csproj", "{78C38768-0ACB-465A-A00F-4D80F92E0F7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Markdig.Renderers.DocX.Tests", "Markdig.Renderers.DocX.Tests\Markdig.Renderers.DocX.Tests.csproj", "{7B1D42EE-5D51-46DD-AFAC-E1CD56085CD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78C38768-0ACB-465A-A00F-4D80F92E0F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78C38768-0ACB-465A-A00F-4D80F92E0F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78C38768-0ACB-465A-A00F-4D80F92E0F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78C38768-0ACB-465A-A00F-4D80F92E0F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1D42EE-5D51-46DD-AFAC-E1CD56085CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1D42EE-5D51-46DD-AFAC-E1CD56085CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1D42EE-5D51-46DD-AFAC-E1CD56085CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1D42EE-5D51-46DD-AFAC-E1CD56085CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
