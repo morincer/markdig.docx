@@ -8,6 +8,8 @@ public class ListRenderer : DocxObjectRenderer<ListBlock>
 {
     protected override void Write(DocxDocumentRenderer renderer, ListBlock obj)
     {
+        base.Write(renderer, obj);
+        
         if (!obj.IsOrdered)
         {
             renderer.BulletListNumberingInstance ??= renderer.Document.AddBulletedListNumbering();

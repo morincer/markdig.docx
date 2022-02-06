@@ -22,21 +22,23 @@ public class DocxDocumentRenderer : RendererBase
     
     public WordDocumentStyles Styles { get; }
 
-    private readonly ILogger<DocxDocumentRenderer> _log;
+    internal ILogger<DocxDocumentRenderer> Log { get; }
     internal Stack<RunProperties> TextFormat { get; } = new();
+    internal Stack<string> TextStyle { get; } = new();
     internal NumberingInstance? BulletListNumberingInstance { get; set; }
     internal AbstractNum? NumberListAbstractNum { get; set; }
     internal NumberingInstance? NumberListNumberingInstance { get; set; }
 
     internal Stack<ListBlock> ActiveList { get; } = new();
 
-    internal int ListLevel { get; set; } 
-    
+    internal int ListLevel { get; set; }
+    public bool SoftBreaksAsHard { get; set; }
+
     public DocxDocumentRenderer(WordprocessingDocument document, 
         WordDocumentStyles styles, 
         ILogger<DocxDocumentRenderer> log)
     {
-        _log = log;
+        Log = log;
         
         Document = document;
 
@@ -55,18 +57,18 @@ public class DocxDocumentRenderer : RendererBase
         // ObjectRenderers.Add(new HtmlBlockRenderer());
         ObjectRenderers.Add(new ParagraphRenderer());
         ObjectRenderers.Add(new ListItemRenderer());
-        // ObjectRenderers.Add(new QuoteBlockRenderer());
-        // ObjectRenderers.Add(new ThematicBreakRenderer());
+        ObjectRenderers.Add(new QuoteBlockRenderer());
+        ObjectRenderers.Add(new ThematicBreakRenderer());
 
         // Default inline renderers
         // ObjectRenderers.Add(new AutolinkInlineRenderer());
         // ObjectRenderers.Add(new CodeInlineRenderer());
         // ObjectRenderers.Add(new DelimiterInlineRenderer());
         ObjectRenderers.Add(new EmphasisInlineRenderer());
-        // ObjectRenderers.Add(new LineBreakInlineRenderer());
+        ObjectRenderers.Add(new LineBreakInlineRenderer());
         // ObjectRenderers.Add(new HtmlInlineRenderer());
         // ObjectRenderers.Add(new HtmlEntityInlineRenderer());
-        // ObjectRenderers.Add(new LinkInlineRenderer());
+        ObjectRenderers.Add(new LinkInlineRenderer());
         ObjectRenderers.Add(new LiteralInlineRenderer());
     }
 

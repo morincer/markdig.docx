@@ -7,6 +7,8 @@ public class ListItemRenderer : ContainerBlockParagraphRendererBase<ListItemBloc
 {
     protected override void Write(DocxDocumentRenderer renderer, ListItemBlock obj)
     {
+        base.Write(renderer, obj);
+        
         renderer.ForceCloseParagraph();
         
         var activeList = renderer.ActiveList.Peek();

@@ -30,5 +30,5 @@ public class WordDocumentStyles
     public int CodeTabSpaces { get; set; } = 3;
 
     public string CodeTab => new string(' ', CodeTabSpaces);
-
+    public string? HorizontalLine { get; set; } = "MDHorizontalLine";
 }

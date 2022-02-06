@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using Markdig.Syntax;
+using Microsoft.Extensions.Logging;
 
 namespace Markdig.Renderers.Docx.Blocks;
 
@@ -12,8 +13,13 @@ public abstract class ParagraphRendererBase<T> : DocxObjectRenderer<T> where T :
 
         if (renderer.NoParagraph == 0)
         {
+            renderer.Log.LogDebug($"Render as paragraph {styleId}");
             renderer.Cursor.Write(p);
             renderer.Cursor.GoInto(p);
+        }
+        else
+        {
+            renderer.Log.LogDebug("Render as run");
         }
 
         renderer.NoParagraph++;

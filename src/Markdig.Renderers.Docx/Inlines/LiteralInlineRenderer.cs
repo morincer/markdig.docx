@@ -5,6 +5,7 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Markdig.Syntax.Inlines;
+using Microsoft.Extensions.Logging;
 
 namespace Markdig.Renderers.Docx.Inlines
 {
@@ -22,11 +23,23 @@ namespace Markdig.Renderers.Docx.Inlines
             if (obj.Content.IsEmpty)
                 return;
 
-            var run = new Run(new Text(obj.Content.ToString()) { Space = SpaceProcessingModeValues.Preserve });
+            var text = obj.Content.ToString();
+            renderer.Log.LogDebug("Run: " + text);
+            var run = new Run(new Text(text) { Space = SpaceProcessingModeValues.Preserve });
             
             if (renderer.TextFormat.TryPeek(out var props))
             {
                 run.RunProperties = new RunProperties(props.OuterXml);
+            }
+
+            if (renderer.TextStyle.TryPeek(out var runStyle))
+            {
+                if (run.RunProperties == null)
+                {
+                    run.RunProperties = new RunProperties();
+                }
+
+                run.RunProperties.RunStyle = new RunStyle {Val = runStyle};
             }
             
             renderer.Cursor.Write(run);
