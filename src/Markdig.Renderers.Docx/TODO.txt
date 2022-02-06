@@ -1,6 +1,7 @@
 ﻿Backlog:
     [ ] (FTR) Add code syntax highlighter
     [ ] (FTR) Add support to internal (aka anchor) document links
+    [ ] (FTR) HTML inline render
 
 Bugs:
     [ ] Hyperlink style is not properly applied

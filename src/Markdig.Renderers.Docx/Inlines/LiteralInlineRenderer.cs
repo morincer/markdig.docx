@@ -34,12 +34,7 @@ namespace Markdig.Renderers.Docx.Inlines
 
             if (renderer.TextStyle.TryPeek(out var runStyle))
             {
-                if (run.RunProperties == null)
-                {
-                    run.RunProperties = new RunProperties();
-                }
-
-                run.RunProperties.RunStyle = new RunStyle {Val = runStyle};
+                run.SetStyle(runStyle);
             }
             
             renderer.Cursor.Write(run);

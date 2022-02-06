@@ -46,6 +46,5 @@ public class LinkInlineRenderer : DocxObjectRenderer<LinkInline>
             
             renderer.Cursor.GoOut();
         }
-
     }
 }

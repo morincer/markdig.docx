@@ -27,8 +27,7 @@ public class WordDocumentStyles
     
     public string? Quote { get; set; } = "MDQuotations";
 
-    public int CodeTabSpaces { get; set; } = 3;
-
-    public string CodeTab => new string(' ', CodeTabSpaces);
     public string? HorizontalLine { get; set; } = "MDHorizontalLine";
+
+    public string? CodeInline { get; set; } = "MDSourceText";
 }

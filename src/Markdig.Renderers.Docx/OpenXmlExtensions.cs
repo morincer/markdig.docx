@@ -196,6 +196,15 @@ public static class OpenXmlExtensions
         }
     }
 
+    public static void SetStyle(this Run run, string? styleId)
+    {
+        if (styleId == null) return;
+
+        run.RunProperties ??= new RunProperties();
+        run.RunProperties.RunStyle ??= new RunStyle();
+        run.RunProperties.RunStyle.Val = styleId;
+    }
+
     public static NumberingInstance AddOrderedListNumbering(this WordprocessingDocument document, int startFrom = 1,
         AbstractNum? abstractNum = null)
     {
