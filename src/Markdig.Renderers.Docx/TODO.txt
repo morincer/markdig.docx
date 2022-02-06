@@ -1,0 +1,16 @@
+﻿Backlog:
+    [ ] (FTR) Add code syntax highlighter
+
+Bugs:
+    [ ] Hyperlink style is not properly applied
+    [ ] Lists are not multi-leveled - fallback default styles to multileveled list
+    [ ] Text formatting for strikethrough, subscript, marking etc. is not applied    
+
+MVP:
+    [ ] (FTR) Implement picture embedding
+    Try to download the picture. If works - embed, if not - embed placeholder
+    [ ] (FTR) Implement tables
+    [ ] (IMP) Add left tight template as a default
+    [ ] (FTR) Implement horizontal line render
+    [ ] (FTR) Add Readme   
+    [ ] (IMP) Change the way writer is instantieated to allow external Document providisoning
