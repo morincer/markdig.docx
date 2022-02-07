@@ -5,10 +5,8 @@ namespace Markdig.Renderers.Docx.Blocks;
 
 public class ListItemRenderer : ContainerBlockParagraphRendererBase<ListItemBlock>
 {
-    protected override void Write(DocxDocumentRenderer renderer, ListItemBlock obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, ListItemBlock obj)
     {
-        base.Write(renderer, obj);
-        
         renderer.ForceCloseParagraph();
         
         var activeList = renderer.ActiveList.Peek();

@@ -5,9 +5,8 @@ namespace Markdig.Renderers.Docx.Blocks;
 
 public class ThematicBreakRenderer : LeafBlockParagraphRendererBase<ThematicBreakBlock>
 {
-    protected override void Write(DocxDocumentRenderer renderer, ThematicBreakBlock obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, ThematicBreakBlock obj)
     {
-        base.Write(renderer, obj);
         var p = WriteAsParagraph(renderer, obj, renderer.Styles.HorizontalLine);
         if (!p.Elements<Run>().Any())
         {

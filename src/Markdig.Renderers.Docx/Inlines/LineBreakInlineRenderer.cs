@@ -6,9 +6,8 @@ namespace Markdig.Renderers.Docx.Inlines;
 
 public class LineBreakInlineRenderer : DocxObjectRenderer<LineBreakInline>
 {
-    protected override void Write(DocxDocumentRenderer renderer, LineBreakInline obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, LineBreakInline obj)
     {
-        base.Write(renderer, obj);
         if (obj.IsHard || renderer.SoftBreaksAsHard)
         {
             renderer.Cursor.Write(new Run(new Break()));

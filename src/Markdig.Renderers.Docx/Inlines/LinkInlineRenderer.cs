@@ -9,9 +9,8 @@ public class LinkInlineRenderer : DocxObjectRenderer<LinkInline>
 {
     private int _hyperlinkIdCounter = 1;
 
-    protected override void Write(DocxDocumentRenderer renderer, LinkInline obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, LinkInline obj)
     {
-        base.Write(renderer, obj);
         renderer.Log.LogDebug($"Rendering link to {obj.Url}");
         
         Uri? uri = null;

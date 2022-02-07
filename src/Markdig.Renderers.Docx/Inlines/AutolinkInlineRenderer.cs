@@ -9,11 +9,8 @@ public class AutolinkInlineRenderer : DocxObjectRenderer<AutolinkInline>
 {
     private int _hyperlinkIdCounter;
 
-    protected override void Write(DocxDocumentRenderer renderer, AutolinkInline obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, AutolinkInline obj)
     {
-        base.Write(renderer, obj);
-        base.Write(renderer, obj);
-        
         var uriString = obj.Url;
         var title = uriString;
         
@@ -47,11 +44,9 @@ public class AutolinkInlineRenderer : DocxObjectRenderer<AutolinkInline>
         
         renderer.Cursor.Write(hl);
         renderer.Cursor.GoInto(hl);
-
-        var run = new Run(new Text(title));
-        run.SetStyle(renderer.Styles.Hyperlink);
-        renderer.Cursor.Write(run);
         
+        WriteText(renderer, title,renderer.Styles.Hyperlink);
+
         renderer.Cursor.GoOut();
     }
 }

@@ -5,7 +5,7 @@ namespace Markdig.Renderers.Docx.Inlines;
 
 public class EmphasisInlineRenderer : DocxObjectRenderer<EmphasisInline>
 {
-    protected override void Write(DocxDocumentRenderer renderer, EmphasisInline obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, EmphasisInline obj)
     {
         var props = new RunProperties();
 

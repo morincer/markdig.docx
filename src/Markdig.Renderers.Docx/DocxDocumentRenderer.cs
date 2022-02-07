@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Markdig.Renderers.Docx.Blocks;
@@ -67,7 +68,7 @@ public class DocxDocumentRenderer : RendererBase
         ObjectRenderers.Add(new EmphasisInlineRenderer());
         ObjectRenderers.Add(new LineBreakInlineRenderer());
         // ObjectRenderers.Add(new HtmlInlineRenderer());
-        // ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+        ObjectRenderers.Add(new HtmlEntityInlineRenderer());
         ObjectRenderers.Add(new LinkInlineRenderer());
         ObjectRenderers.Add(new LiteralInlineRenderer());
     }
@@ -109,16 +110,7 @@ public class DocxDocumentRenderer : RendererBase
     }
 
 
-    public void WriteLeafInline(LeafBlock leafBlock)
-    {
-        if (leafBlock is null) throw new ArgumentException($"Leaf block is empty");
-        var inline = (Inline) leafBlock.Inline!;
-
-        while (inline != null)
-        {
-            Write(inline);
-            inline = inline.NextSibling;
-        }
-
-    }
+    
+    
+    
 }

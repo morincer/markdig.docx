@@ -6,10 +6,8 @@ namespace Markdig.Renderers.Docx.Blocks;
 
 public class ListRenderer : DocxObjectRenderer<ListBlock>
 {
-    protected override void Write(DocxDocumentRenderer renderer, ListBlock obj)
+    protected override void WriteObject(DocxDocumentRenderer renderer, ListBlock obj)
     {
-        base.Write(renderer, obj);
-        
         if (!obj.IsOrdered)
         {
             renderer.BulletListNumberingInstance ??= renderer.Document.AddBulletedListNumbering();

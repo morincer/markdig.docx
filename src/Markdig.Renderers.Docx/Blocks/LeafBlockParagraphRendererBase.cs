@@ -6,6 +6,6 @@ public abstract class LeafBlockParagraphRendererBase<T> : ParagraphRendererBase<
 {
     protected override void RenderContents(DocxDocumentRenderer renderer, T block)
     {
-        renderer.WriteLeafInline(block);
+        WriteLeafInline(renderer, block);
     }
 }

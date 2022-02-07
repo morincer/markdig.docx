@@ -5,9 +5,8 @@ namespace Markdig.Renderers.Docx.Inlines;
 
 public class DelimiterInlineRenderer : DocxObjectRenderer<DelimiterInline>
 {
-    protected override void Write(DocxDocumentRenderer renderer, DelimiterInline obj)
-    {
-        base.Write(renderer, obj);
-        renderer.Cursor.Write(new Run(new Text(obj.ToLiteral())));
+    protected override void WriteObject(DocxDocumentRenderer renderer, DelimiterInline obj)
+    { 
+        WriteText(renderer, obj.ToLiteral());
     }
 }

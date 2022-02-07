@@ -1,4 +1,7 @@
-﻿using Markdig.Syntax;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using Microsoft.Extensions.Logging;
 
 namespace Markdig.Renderers.Docx;
@@ -7,6 +10,61 @@ public abstract class DocxObjectRenderer<T> : MarkdownObjectRenderer<DocxDocumen
 {
     protected override void Write(DocxDocumentRenderer renderer, T obj)
     {
-        renderer.Log.LogDebug($"Processing {typeof(T).Name} with {GetType().Name}");
+        if (renderer == null) throw new ArgumentNullException(nameof(renderer));
+        if (obj == null) throw new ArgumentNullException(nameof(obj));
+
+        renderer.Log.LogDebug($"{obj.GetType().Name} Start");
+        WriteObject(renderer, obj);
+        renderer.Log.LogDebug($"{obj.GetType().Name} End");
     }
+    
+    public void WriteText(DocxDocumentRenderer renderer, string text)
+    {
+        var run = new Run(new Text(text) {Space = SpaceProcessingModeValues.Preserve});
+
+        if (renderer.TextFormat.TryPeek(out var props))
+        {
+            run.RunProperties = new RunProperties(props.OuterXml);
+        }
+
+        if (renderer.TextStyle.TryPeek(out var runStyle))
+        {
+            run.SetStyle(runStyle);
+        }
+
+        renderer.Log.LogDebug($"Run {runStyle} start: {text}");
+        renderer.Cursor.Write(run);
+        renderer.Log.LogDebug("Run end");
+
+    }
+    
+    public void WriteLeafInline(DocxDocumentRenderer renderer, LeafBlock leafBlock)
+    {
+        if (leafBlock is null) throw new ArgumentException($"Leaf block is empty");
+        var inline = (Inline) leafBlock.Inline!;
+
+        while (inline != null)
+        {
+            renderer.Write(inline);
+            inline = inline.NextSibling;
+        }
+    }
+
+    public void WriteText(DocxDocumentRenderer renderer, string text, string? style)
+    {
+        if (style != null)
+        {
+            renderer.TextStyle.Push(style);
+        }
+        
+        WriteText(renderer, text);
+
+        if (style != null)
+        {
+            renderer.TextStyle.Pop();
+        }
+        
+    }
+
+    protected abstract void WriteObject(DocxDocumentRenderer renderer, T obj);
 }
