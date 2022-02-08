@@ -37,14 +37,19 @@ public class DocxTemplateHelper
         
         if (clean)
         {
-            document.MainDocumentPart!.Document.Body!.RemoveAllChildren();
-            if (document.MainDocumentPart?.NumberingDefinitionsPart?.Numbering != null)
-            {
-                document.MainDocumentPart.NumberingDefinitionsPart.Numbering.RemoveAllChildren<NumberingInstance>();
-            }
+            CleanContents(document);
         }
 
         return document;
+    }
+
+    public static void CleanContents(WordprocessingDocument document)
+    {
+        document.MainDocumentPart!.Document.Body!.RemoveAllChildren();
+        if (document.MainDocumentPart?.NumberingDefinitionsPart?.Numbering != null)
+        {
+            document.MainDocumentPart.NumberingDefinitionsPart.Numbering.RemoveAllChildren<NumberingInstance>();
+        }
     }
 
     public static Paragraph? FindParagraphContainingText(WordprocessingDocument document, string text)
