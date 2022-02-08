@@ -2,15 +2,19 @@
     [ ] (FTR) Add code syntax highlighter
     [ ] (FTR) Add support to internal (aka anchor) document links
     [ ] (FTR) HTML inline render
+    [ ] (FTR) Picture link rendering
+    [ ] (FTR) Implement tables    
+    [ ] (FTR) Merge styles helper
+    [ ] (IMP) Fallback for missing styles    
 
 Bugs:
-    [ ] Hyperlink style is not properly applied
+    [x] Hyperlink style is not properly applied
     
 MVP:
-    [ ] (FTR) Implement picture embedding
-    Try to download the picture. If works - embed, if not - embed placeholder
-    [ ] (FTR) Implement tables
     [ ] (IMP) Check list item styling
     [ ] (IMP) Add left tight template as a default
-    [ ] (FTR) Implement horizontal line render
+    [x] (FTR) Implement horizontal line render
     [ ] (FTR) Add Readme   
+    [ ] (CLN) Fix docs
+    [ ] (IMP) Add run styles for emphasis, subscript etc.
+    [ ] (IMP) Highlights/insertions should be controlled by styles

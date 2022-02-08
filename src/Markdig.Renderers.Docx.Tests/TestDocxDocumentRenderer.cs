@@ -1,8 +1,10 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Serilog;
@@ -35,7 +37,7 @@ public class TestDocxDocumentRenderer
 
         _log = _factory.CreateLogger<TestDocxDocumentRenderer>();
         _styles = new();
-        _validator = new OpenXmlValidator();
+        _validator = new OpenXmlValidator(FileFormatVersions.Office2016);
 
         _inputDirectory = Path.GetFullPath("Resources/");
         _outputDirectory = Path.GetFullPath("output/");
@@ -85,18 +87,94 @@ public class TestDocxDocumentRenderer
     {
         LoadAndValidate("hyperlinks.md");
     }
-    
+
     [Test]
     public void ShouldConvertQuoteWithoutErrors()
     {
         LoadAndValidate("quote.md");
     }
-    
+
     [Test]
     public void ShouldConvertBreakWithoutErrors()
     {
         LoadAndValidate("break.md");
     }
+    
+    [Test]
+    public void ShouldConvertPictureLinkWithoutErrors()
+    {
+        LoadAndValidate("picture-link.md");
+    }
+    
+    [Test]
+    public void ShouldConvertStandardTemplate()
+    {
+        LoadAndValidate("standard-template.md");
+    }
+
+    [Test]
+    public void ShouldRenderIntoUserProvidedPosition()
+    {
+        var document =
+            DocxTemplateHelper.LoadFromResource("Markdig.Renderers.Docx.Tests.Resources.docx.template-to-insert.docx");
+
+        var paragraph = DocxTemplateHelper.FindParagraphContainingText(document, "INSERT");
+        Assert.NotNull(paragraph);
+
+        var renderer = new DocxDocumentRenderer(document, _styles, _rendererLogger);
+        renderer.Cursor.SetAfter(paragraph);
+        Markdown.Convert("**Markdown Paragraph 1 - bold** text\n\nParagraph2", renderer);
+        paragraph!.Remove();
+
+        document.SaveAs(Path.Combine(_outputDirectory, "template-to-insert.md.docx"));
+
+        AssertValid(document);
+    }
+
+    [Test]
+    public void ShouldRenderIntoManyPositions()
+    {
+        var document =
+            DocxTemplateHelper.LoadFromResource("Markdig.Renderers.Docx.Tests.Resources.docx.template-to-insert-multi.docx");
+
+        var paragraph = DocxTemplateHelper.FindParagraphContainingText(document, "INSERT1");
+        Assert.NotNull(paragraph);
+
+        var renderer = new DocxDocumentRenderer(document, _styles, _rendererLogger);
+        renderer.Cursor.SetAfter(paragraph);
+        Markdown.Convert("**Insert 1** here", renderer);
+        paragraph!.Remove();
+
+        paragraph = DocxTemplateHelper.FindParagraphContainingText(document, "INSERT2");
+        Assert.NotNull(paragraph);
+        renderer.Cursor.SetAfter(paragraph);
+        Markdown.Convert("**Insert 2** here", renderer);
+        paragraph!.Remove();
+
+        document.SaveAs(Path.Combine(_outputDirectory, "template-to-insert-multi.md.docx"));
+
+        AssertValid(document);
+    }
+
+    [Test]
+    public void ShouldRenderIntoUserProvidedPositionInTable()
+    {
+        var document =
+            DocxTemplateHelper.LoadFromResource("Markdig.Renderers.Docx.Tests.Resources.docx.template-to-insert-table.docx");
+
+        var paragraph = DocxTemplateHelper.FindParagraphContainingText(document, "INSERT");
+        Assert.NotNull(paragraph);
+
+        var renderer = new DocxDocumentRenderer(document, _styles, _rendererLogger);
+        renderer.Cursor.SetAfter(paragraph);
+        Markdown.Convert("**Markdown Paragraph 1 - bold** text\n\nParagraph2", renderer);
+        paragraph!.Remove();
+
+        document.SaveAs(Path.Combine(_outputDirectory, "template-to-insert-table.md.docx"));
+
+        AssertValid(document);
+    }
+
 
     private void LoadAndValidate(string fileName)
     {
@@ -105,7 +183,7 @@ public class TestDocxDocumentRenderer
         Assert.True(File.Exists(markdownFilePath), $"{markdownFilePath} not found");
         var outputFilePath = Path.Combine(_outputDirectory, fileName + ".docx");
 
-        var document = DocxTemplate.Standard;
+        var document = DocxTemplateHelper.Standard;
 
         var renderer = new DocxDocumentRenderer(document, _styles, _rendererLogger);
         var pipeline = new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
@@ -116,6 +194,7 @@ public class TestDocxDocumentRenderer
         AssertValid(document);
         document.Close();
     }
+
 
     private void AssertValid(WordprocessingDocument document)
     {

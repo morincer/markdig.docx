@@ -25,15 +25,31 @@ public class DocumentTreeCursor
         InsertAfter = null;
     }
 
-    public void GoOut()
+    public void PopAndAdvanceAfter(OpenXmlElement? element)
     {
         var tuple = _position.Pop();
-        (Container, InsertAfter) = (tuple.Item1, tuple.Item2);
+        if (element != null && tuple.Item1 != element.Parent)
+        {
+            throw new ArgumentException($"Element parent does not match container: expected {tuple.Item1}, got {element.Parent}");
+        }
+        (Container, InsertAfter) = (tuple.Item1, element);
     }
 
-    public void AdvancePosition(OpenXmlElement insertAfter)
+    public void SetAfter(OpenXmlElement? insertAfter)
     {
+        if (insertAfter == null)
+        {
+            InsertAfter = null;
+            return;
+        }
+        
+        if (insertAfter.Parent is not OpenXmlCompositeElement parent)
+        {
+            throw new ArgumentException("Target position parent is not a composite element");
+        }
+        
         InsertAfter = insertAfter;
+        Container = parent;
     }
 
     public void AssertContainerType<T>() where T : OpenXmlCompositeElement

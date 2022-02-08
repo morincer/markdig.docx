@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿using System.Diagnostics;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Markdig.Syntax;
 
 namespace Markdig.Renderers.Docx.Blocks;
@@ -8,21 +9,15 @@ public class ListItemRenderer : ContainerBlockParagraphRendererBase<ListItemBloc
     protected override void WriteObject(DocxDocumentRenderer renderer, ListItemBlock obj)
     {
         renderer.ForceCloseParagraph();
-        
-        var activeList = renderer.ActiveList.Peek();
 
-        renderer.ListLevel++;
-        
-        var p =WriteAsParagraph(renderer, obj, activeList.IsOrdered ? renderer.Styles.ListOrdered : renderer.Styles.ListBullet);
+        var listInfo = renderer.ActiveList.Peek();
 
-        if (renderer.ListLevel > 1)
+        var p = WriteAsParagraph(renderer, obj, listInfo.StyleId);
+        p.GetOrCreateProperties().NumberingProperties = new NumberingProperties
         {
-            p.GetOrCreateProperties().NumberingProperties = new NumberingProperties
-            {
-                NumberingLevelReference = new NumberingLevelReference {Val = renderer.ListLevel - 1}
-            };
-        }
+            NumberingId = new NumberingId() {Val = listInfo.NumberingInstance.NumberID},
+            NumberingLevelReference = new NumberingLevelReference {Val = listInfo.Level}
+        };
 
-        renderer.ListLevel--;
     }
 }

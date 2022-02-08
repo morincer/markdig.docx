@@ -170,7 +170,8 @@ public static class OpenXmlExtensions
         return p;
     }
 
-    public static void InsertAfterLastOfType<T>(this OpenXmlCompositeElement parent, OpenXmlElement element) where T : OpenXmlElement
+    public static void InsertAfterLastOfType<T>(this OpenXmlCompositeElement parent, OpenXmlElement element)
+        where T : OpenXmlElement
     {
         var refElement = parent.Elements<T>().LastOrDefault();
         if (refElement == null)
@@ -204,44 +205,68 @@ public static class OpenXmlExtensions
         run.RunProperties.RunStyle ??= new RunStyle();
         run.RunProperties.RunStyle.Val = styleId;
     }
+    
+    
 
-    public static NumberingInstance AddOrderedListNumbering(this WordprocessingDocument document, int startFrom = 1,
-        AbstractNum? abstractNum = null)
+    public static AbstractNum AddOrderedListAbstractNumbering(this WordprocessingDocument document)
     {
         var numbering = document.GetOrCreateNumbering();
 
-        if (abstractNum == null)
+        var abstractNumId = numbering.Elements<AbstractNum>().Count() + 1;
+        
+        var abstractNum = new AbstractNum(
+            new Level(
+                new NumberingFormat() {Val = NumberFormatValues.Decimal},
+                new LevelText() {Val = "%1."}
+            ) {LevelIndex = 0, StartNumberingValue = new StartNumberingValue() {Val = 1}}
+        )
         {
-            var abstractNumberId = numbering.Elements<AbstractNum>().Count() + 1;
-            abstractNum = new AbstractNum(
-                new Level(
-                    new NumberingFormat() {Val = NumberFormatValues.Decimal},
-                    new LevelText() {Val = "%1."}
-                ) {LevelIndex = 0, StartNumberingValue = new StartNumberingValue() {Val = 1}}
-            )
-            {
-                AbstractNumberId = abstractNumberId,
-                MultiLevelType = new MultiLevelType {Val = MultiLevelValues.SingleLevel}
-            };
+            AbstractNumberId = abstractNumId,
+            MultiLevelType = new MultiLevelType {Val = MultiLevelValues.SingleLevel}
+        };
 
-            numbering.AddAbstractNumbering(abstractNum);
-        }
+        numbering.AddAbstractNumbering(abstractNum);
 
+        return abstractNum;
+    }
+
+    public static AbstractNum AddBulletListAbstractNumbering(this WordprocessingDocument document)
+    {
+        var numbering = document.GetOrCreateNumbering();
+        
+        var abstractNumberId = numbering.Elements<AbstractNum>().Count() + 1;
+
+        var abstractNum = new AbstractNum(
+            new Level(
+                new NumberingFormat() {Val = NumberFormatValues.Bullet},
+                new LevelText() {Val = "·"}
+            ) {LevelIndex = 0}
+        ) {AbstractNumberId = abstractNumberId};
+
+        numbering.AddAbstractNumbering(abstractNum);
+        return abstractNum;
+    }
+
+    public static NumberingInstance AddOrderedListNumbering(this WordprocessingDocument document, int abstractNumId, int? startFrom = null)
+    {
+        var numbering = document.GetOrCreateNumbering();
         var numId = numbering.Elements<NumberingInstance>().Count() + 1;
         var numberingInstance = new NumberingInstance(
-            new AbstractNumId() {Val = abstractNum.AbstractNumberId}
+            new AbstractNumId() {Val = abstractNumId }
         ) {NumberID = numId};
-
-        if (startFrom != 1)
-        {
-            var numberingOverride = new LevelOverride(
-                new StartOverrideNumberingValue {Val = startFrom}
-            );
-            numberingInstance.AppendChild(numberingOverride);
-        }
-
         numbering.AddNumberingInstance(numberingInstance);
 
+        if (startFrom != null)
+        {
+            var levelOverride = new LevelOverride
+            {
+                LevelIndex = 0,
+                StartOverrideNumberingValue = new StartOverrideNumberingValue() {Val = startFrom}
+            };
+            numberingInstance.AppendChild(levelOverride);
+        }
+
+        
         return numberingInstance;
     }
 
@@ -266,7 +291,7 @@ public static class OpenXmlExtensions
 
 
         var numId = numbering.Elements<NumberingInstance>().Count() + 1;
-        
+
         var numberingInstance = new NumberingInstance(
             new AbstractNumId() {Val = abstractNum.AbstractNumberId}
         ) {NumberID = numId};

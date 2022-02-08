@@ -43,7 +43,7 @@ public class LinkInlineRenderer : DocxObjectRenderer<LinkInline>
             renderer.WriteChildren(obj);
             renderer.TextStyle.Pop();
             
-            renderer.Cursor.GoOut();
+            renderer.Cursor.PopAndAdvanceAfter(hl);
         }
     }
 }

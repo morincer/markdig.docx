@@ -10,6 +10,7 @@ public class WordDocumentStyles
         [3] = "MDHeading3",
         [4] = "MDHeading4",
         [5] = "MDHeading5",
+        [6] = "MDHeading6",
     };
 
     public string UndefinedHeading { get; set; } = "MDHeading5";
@@ -21,9 +22,11 @@ public class WordDocumentStyles
     public string UnknownFormatting { get; set; } = "MDNormal";
     public string Hyperlink { get; set; } = "MDHyperlink";
 
-    public string List { get; set; } = "MDList";
-    public string? ListOrdered { get; set; } = "MDListNumber";
-    public string? ListBullet { get; set; } = "MDListBullet";
+    public string ListOrdered { get; set; } = "MDListNumber";
+
+    public string ListOrderedItem { get; set; } = "MDListNumberItem";
+    public string ListBullet { get; set; } = "MDListBullet";
+    public string ListBulletItem { get; set; } = "MDListBulletItem";
     
     public string? Quote { get; set; } = "MDQuotations";
 

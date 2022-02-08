@@ -28,6 +28,8 @@
       <EmbeddedResource Include="Resources\break.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
+      <EmbeddedResource Include="Resources\docx\template-to-insert-multi.docx" />
+      <EmbeddedResource Include="Resources\docx\template-to-insert-table.docx" />
       <EmbeddedResource Include="Resources\hyperlinks.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
@@ -35,6 +37,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="Resources\list-single.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\picture-link.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <EmbeddedResource Include="Resources\quote.md">
@@ -57,6 +62,12 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <None Remove="Resources\bullet-list-single.md" />
+      <None Remove="Resources\docx\template-to-insert.docx" />
+      <EmbeddedResource Include="Resources\docx\template-to-insert.docx" />
+      <None Remove="Resources\standart-template.md" />
+      <EmbeddedResource Include="Resources\standard-template.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>

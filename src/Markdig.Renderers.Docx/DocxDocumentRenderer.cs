@@ -26,13 +26,9 @@ public class DocxDocumentRenderer : RendererBase
     internal ILogger<DocxDocumentRenderer> Log { get; }
     internal Stack<RunProperties> TextFormat { get; } = new();
     internal Stack<string> TextStyle { get; } = new();
-    internal NumberingInstance? BulletListNumberingInstance { get; set; }
-    internal AbstractNum? NumberListAbstractNum { get; set; }
-    internal NumberingInstance? NumberListNumberingInstance { get; set; }
+    
+    internal Stack<ListInfo> ActiveList { get; } = new();
 
-    internal Stack<ListBlock> ActiveList { get; } = new();
-
-    internal int ListLevel { get; set; }
     public bool SoftBreaksAsHard { get; set; }
 
     public DocxDocumentRenderer(WordprocessingDocument document, 
@@ -75,10 +71,17 @@ public class DocxDocumentRenderer : RendererBase
 
     public void ForceCloseParagraph()
     {
+        Paragraph? topParagraphOnStack = null;
         while (NoParagraph > 0)
         {
-            Cursor.GoOut();
+            topParagraphOnStack = Cursor.Container as Paragraph;
+            Cursor.PopAndAdvanceAfter(null);
             NoParagraph--;
+        }
+
+        if (topParagraphOnStack != null)
+        {
+            Cursor.SetAfter(topParagraphOnStack);
         }
     }
 

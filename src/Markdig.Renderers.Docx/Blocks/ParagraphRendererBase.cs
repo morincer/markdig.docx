@@ -36,7 +36,7 @@ public abstract class ParagraphRendererBase<T> : DocxObjectRenderer<T> where T :
 
             if (renderer.NoParagraph == 0)
             {
-                renderer.Cursor.GoOut();
+                renderer.Cursor.PopAndAdvanceAfter(p);
             }
 
             return p;
