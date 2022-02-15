@@ -1,6 +1,6 @@
 ﻿namespace Markdig.Renderers.Docx;
 
-public class WordDocumentStyles
+public class DocumentStyles
 {
     public Dictionary<int, string?> Headings { get; } = new()
     {

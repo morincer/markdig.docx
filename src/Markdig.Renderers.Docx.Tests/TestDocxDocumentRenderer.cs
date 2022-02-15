@@ -6,6 +6,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 using Serilog;
 
@@ -22,7 +23,7 @@ public class TestDocxDocumentRenderer
     );
 
     private ILogger<TestDocxDocumentRenderer> _log;
-    private WordDocumentStyles _styles;
+    private DocumentStyles _styles;
     private string _inputDirectory;
     private string _outputDirectory;
     private ILogger<DocxDocumentRenderer> _rendererLogger;
@@ -111,6 +112,12 @@ public class TestDocxDocumentRenderer
     {
         LoadAndValidate("standard-template.md");
     }
+    
+    [Test]
+    public void ShouldConvertSampleText()
+    {
+        LoadAndValidate("sample-text.md");
+    }
 
     [Test]
     public void ShouldRenderIntoUserProvidedPosition()
@@ -175,7 +182,7 @@ public class TestDocxDocumentRenderer
         AssertValid(document);
     }
 
-
+    
     private void LoadAndValidate(string fileName)
     {
         _log.LogInformation($"Processing {fileName}");
@@ -184,7 +191,7 @@ public class TestDocxDocumentRenderer
         var outputFilePath = Path.Combine(_outputDirectory, fileName + ".docx");
 
         var document = DocxTemplateHelper.Standard;
-
+        
         var renderer = new DocxDocumentRenderer(document, _styles, _rendererLogger);
         var pipeline = new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
         Markdown.Convert(File.ReadAllText(markdownFilePath), renderer, pipeline);

@@ -11,8 +11,8 @@ Bugs:
     [x] Hyperlink style is not properly applied
     
 MVP:
-    [ ] (IMP) Check list item styling
-    [ ] (IMP) Add left tight template as a default
+    [x] (IMP) Check list item styling
+    [x] (IMP) Add left tight template as a default
     [x] (FTR) Implement horizontal line render
     [ ] (FTR) Add Readme   
     [ ] (CLN) Fix docs

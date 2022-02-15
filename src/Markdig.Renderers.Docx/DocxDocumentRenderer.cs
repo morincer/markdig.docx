@@ -7,6 +7,7 @@ using Markdig.Renderers.Docx.Inlines;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 
 namespace Markdig.Renderers.Docx;
@@ -21,7 +22,7 @@ public class DocxDocumentRenderer : RendererBase
     
     internal HashSet<string> UsedStyles { get; private set; } = new();
     
-    public WordDocumentStyles Styles { get; }
+    public DocumentStyles Styles { get; }
 
     internal ILogger<DocxDocumentRenderer> Log { get; }
     internal Stack<RunProperties> TextFormat { get; } = new();
@@ -31,8 +32,12 @@ public class DocxDocumentRenderer : RendererBase
 
     public bool SoftBreaksAsHard { get; set; }
 
+    public DocxDocumentRenderer(WordprocessingDocument document) : this(document, new DocumentStyles(), NullLogger<DocxDocumentRenderer>.Instance)
+    {
+        
+    }
     public DocxDocumentRenderer(WordprocessingDocument document, 
-        WordDocumentStyles styles, 
+        DocumentStyles styles, 
         ILogger<DocxDocumentRenderer> log)
     {
         Log = log;

@@ -68,6 +68,10 @@
       <EmbeddedResource Include="Resources\standard-template.md">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
+      <None Remove="Resources\sample-text.md" />
+      <EmbeddedResource Include="Resources\sample-text.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
