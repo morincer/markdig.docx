@@ -11,7 +11,8 @@
         <PackageProjectUrl>https://github.com/morincer/markdig.docx</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/morincer/markdig.docx/blob/main/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/morincer/markdig.docx</RepositoryUrl>
-        <PackageTags>Markdown Docx Word</PackageTags>
+        <PackageTags>Markdig Docx Word</PackageTags>
+        <PackageId>Morincer.Markdig.Renderers.Docx</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
