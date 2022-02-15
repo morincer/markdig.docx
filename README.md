@@ -4,9 +4,9 @@ A Docx renderer for the excelent [Markdig](https://github.com/xoofx/markdig) par
 
 The renderer allows to output markdown text into an OpenXml-compliant word processing document (Microsoft Word's docx as an example).
 
-So you transform something like [this](./src/Markdig.Renderers.Docx.Tests/Resources/sample-text.md) into something like this:
+So you transform something like [this markdown](./src/Markdig.Renderers.Docx.Tests/Resources/sample-text.md) into something like this Word document:
 
-![Word](./docs/Screenshot_20.png)
+<img src="./docs/Screenshot_20.png" width=500/>
 
 **Main features**:
 
