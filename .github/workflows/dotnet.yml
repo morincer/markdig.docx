@@ -8,7 +8,7 @@ on:
     - 'img/**'
     - 'changelog.md'
     - 'readme.md'
-    - '.github'
+    - '.github/**'
     
   pull_request:
     branches: [ main ]
