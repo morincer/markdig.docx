@@ -31,6 +31,14 @@ So you transform something like [this markdown](./src/Markdig.Renderers.Docx.Tes
 * Pictures embedding
 * Various format extensions (tables, grids etc.)
 
+## Installation
+
+Fetch from NuGet.
+
+```bash
+Install-Package Morincer.Markdig.Renderers.Docx 
+```
+
 ## How to Use
 
 More usage scenarios are presented in [Tests](./src/Markdig.Renderers.Docx.Tests/TestDocxDocumentRenderer.cs)
