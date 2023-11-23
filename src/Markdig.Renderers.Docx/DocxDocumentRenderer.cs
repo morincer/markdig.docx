@@ -90,7 +90,7 @@ public class DocxDocumentRenderer : RendererBase
         }
     }
 
-    public override DocxDocumentRenderer Render(MarkdownObject markdownObject)
+    public override object Render(MarkdownObject markdownObject)
     {
         if (markdownObject is MarkdownDocument)
         {
